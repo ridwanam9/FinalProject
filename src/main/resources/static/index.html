@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    </head>
+    <body>
+        <div>Data Test Sender</div>
+        <hr>
+        <script>
+            
+            const url = "http://localhost:8080/POST";
+            function post(){
+            
+            let genID = Math.floor(Math.random() * 500);
+            let name = document.getElementById("name").value;
+            let nik = document.getElementById("nik").value;
+            let address = document.getElementById("alamat").value;
+            let photo = document.getElementById("image").value;
+            
+            
+            let dataText = {"id":genID,"name":name,"nik":nik,"address":address,"photo":photo};
+            let dataJson = JSON.stringify(dataText);
+            
+                
+                $.ajax({
+                    url:url,
+                    method: 'POST',
+                    data: dataJson,
+                    contentType:'application/json',
+                    dataType:'text',
+                    success:function(result){
+                        console.log(result);
+                        
+                    }
+                    
+                });
+            }
+            
+            function put(){
+                const urlp = "http://localhost:8080/PUT";
+            //let dataText = {"id":100,"name":"Haris Setiawan","birthday":"1969-03-12"};
+            let editID = document.getElementById("myid").value;
+            let name = document.getElementById("name").value;
+            let nik = document.getElementById("nik").value;
+            let address = document.getElementById("alamat").value;
+            let photo = document.getElementById("image").value;
+            
+            let dataText = {"id":editID,"name":name,"nik":nik,"address":address, "photo":photo};
+            let dataJson = JSON.stringify(dataText);
+            
+                
+                $.ajax({
+                    url:urlp,
+                    method: 'PUT',
+                    data: dataJson,
+                    contentType:'application/json',
+                    dataType:'text',
+                    success:function(result){
+                        console.log(result);
+                        
+                    }
+                    
+                });
+            }
+            
+            function del(){
+                let delID = document.getElementById("myid").value;
+                const urld = "http://localhost:8080/DEL/"+delID;
+    
+                 
+                $.ajax({
+                    url:urld,
+                    method: 'DELETE',
+                    data: delID,
+                    dataType:'text',
+                    success:function(result){
+                        document.getElementById("viewer").innerHTML = result;
+                        
+                    }
+                    
+                });
+            }
+            
+            function get(){
+                const urlg = "http://localhost:8080/GET";
+    
+                 
+                $.ajax({
+                    url:urlg,
+                    method: 'GET',
+                    dataType:'text',
+                    success:function(result){
+                        document.getElementById("viewer").innerHTML = result;
+                        
+                    }
+                    
+                });
+            }
+            
+            
+        </script>
+        ID : <input type="text" id="myid" name="myid"><br>
+        Name : <input type="text" id="name" name="name"><br>
+        NIK : <input type="text" id="nik" name="nik"><br>
+        Address : <input type="text" id="alamat" name="alamat"><br>
+        <!--Photo<input type="file" name="image" accept="image/*"> -->
+        Photo : <input type="file" name="image" accept="image/*" id="image">
+        <hr>
+        <button onclick="get()">Get Data to The Web Server</button><br><!-- comment -->
+        <button onclick="post()">Send Data to The Web Server</button><br><!-- comment -->
+        <button onclick="put()">Edit Data to The Web Server</button><br><!-- comment -->
+        <button onclick="delete()">Delete Data to The Web Server</button><!-- comment -->
+        <hr>
+        <div id="viewer"></div>
+        
+    </body>
+</html>
